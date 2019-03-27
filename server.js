@@ -24,11 +24,16 @@ app.use(express.static('public'));
 
 app.post('/upload', upload.single('myImage'), function(req, res, next) {
     const file = req.file;
-    if (!file) {
-        res.render('index');
-    }else {
-        console.log(req.file);
-        res.send(file);
+    var filetype = file.mimetype.split("/")[0];
+    if(filetype === "image") {
+        if (!file) {
+            res.render('index');
+        } else {
+            console.log(req.file);
+            res.send(file);
+        }
+    }else{
+        res.send(500);
     }
 });
 
