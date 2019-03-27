@@ -10,7 +10,7 @@ const path = require('path');
 const storage = multer.diskStorage({
     destination: './public/uploads/',
     filename: function(req, file, cb){
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        cb(null, file.fieldname + path.extname(file.originalname));
     }
 });
 
@@ -22,7 +22,7 @@ var app = express();
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
-app.post('/upload', upload.single('myImage'), function(req, res, next) {
+app.post('/api/file', upload.single('myImage'), function(req, res, next) {
     const file = req.file;
     var filetype = file.mimetype.split("/")[0];
     if(filetype === "image") {
@@ -35,36 +35,6 @@ app.post('/upload', upload.single('myImage'), function(req, res, next) {
     }else{
         res.send(500);
     }
-});
-
-app.get('/', function (req, res) {
-    res.render('index');
-});
-
-app.get('/resize', function (req, res) {
-    res.send('Resize');
-    gm('./public/*')
-        .resize(40, 40)
-        .noProfile()
-        .write('./resize/small/imagesm.png', function (err) {
-            if (!err) console.log('small resized');
-        });
-    gm('./public/*')
-        .resize(100, 100)
-        .noProfile()
-        .write('./resize/medium/imagemd.png', function (err) {
-            if (!err) console.log('medium resized');
-        });
-    gm('./public/*')
-        .resize(400, 400)
-        .noProfile()
-        .write('./resize/large/imagelg.png', function (err) {
-            if (!err) console.log('large resized');
-        });
-});
-
-app.get('/api/file', function (req, res) {
-    res.send(200);
     gm('./public/uploads/*')
         .resize(720, 720)
         .write('./public/small/small_image.jpg', function (err) {
@@ -82,6 +52,10 @@ app.get('/api/file', function (req, res) {
         });
 });
 
-app.listen(process.env.PORT || 3000, function () {
+app.get('/', function (req, res) {
+    res.render('index');
+});
+
+app.listen(process.env.PORT || 80, function () {
     console.log('App listening on port ' + process.env.PORT);
 });
