@@ -25,7 +25,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/resize', function (req, res) {
-   res.send('Home');
+   res.send('Resize');
     gm('./public/*')
         .resize(40, 40)
         .noProfile()
