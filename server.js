@@ -25,12 +25,16 @@ app.use(express.static('public'));
 app.post('/api/file', upload.single('myImage'), function(req, res, next) {
     const file = req.file;
     var filetype = file.mimetype.split("/")[0];
+    if(filetype === "image") {
         if (!file) {
             res.render('index');
         } else {
             console.log(req.file);
             res.send(file);
         }
+    }else{
+        res.send(500);
+    }
     gm('./public/uploads/*')
         .resize(720, 720)
         .write('./public/small/small_image.jpg', function (err) {
