@@ -5,6 +5,8 @@
   "main": "server.js",
   "dependencies": {
     "express": "^4.16.4",
+    "fs": "0.0.1-security",
+    "gm": "^1.23.1",
     "multer": "^1.4.1"
   },
   "devDependencies": {},
@@ -21,4 +23,5 @@
   "engines": {
     "node": "10.x"
   }
+
 }
